@@ -6,13 +6,7 @@ const board = document.querySelector('.board');
 
 function createDiv(num) {
     // Clear existing grid items
-    board.innerHTML = '';
-
     // Set the flex container styles
-    board.style.display = 'flex';
-    board.style.flexWrap = 'wrap';
-    board.style.width = '100%'; 
-
     // Calculate the size of each square
     const squareSize = 100 / num; // 100% divided by number of columns
 
