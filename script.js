@@ -1,54 +1,46 @@
-const container = document.querySelector(".container");
-const mainDiv = document.createElement("div");
+const resizeBtn = document.querySelector("#resize-btn");
+const board = document.querySelector('.board');
 
+//  Div Creation function along with mouseover
+    
 
-mainDiv.classList.add("main");
-mainDiv.style.display = "flex";
-mainDiv.style.alignItems = "center";
-mainDiv.style.justifyContent = "center";
+function createDiv(num) {
+    // Clear existing grid items
+    board.innerHTML = '';
 
-function getDivInput(input)  {
-    const innerInput = prompt ("Please Enter How many divs you want to create? MIN: 25, MAX: 100");
-    if (innerInput === null) {
-        alert("ERROR: Invalid Input, please use numbers");
-    } else if (innerInput < 25 || innerInput > 100){
-        alert("ERROR: You can enter minimum of 25 and maximum of 100");
-    }else if (innerInput !== Number){
-        alert("ERROR: Please use only NUMBERS! You smartass!")
-    }
-    else {
-        return innerInput
-    }
-}
+    // Set the flex container styles
+    board.style.display = 'flex';
+    board.style.flexWrap = 'wrap';
+    board.style.width = '100%'; 
 
+    // Calculate the size of each square
+    const squareSize = 100 / num; // 100% divided by number of columns
 
-const maxButton = document.createElement('button');
-maxButton.classList.add("Lines");
-maxButton.innerText = "Test";
-maxButton.onclick = getDivInput;
+    // Create new grid items
+    for (let i = 0; i < num * num; i++) {
+        let square = document.createElement("div");
+        square.style.width = `${squareSize}%`;
+        square.style.height = `${squareSize}%`;
+        square.style.border = "1px solid #0000004d";
+        square.style.boxSizing = "border-box"; 
+        board.appendChild(square);
 
+         // Add event listeners for hover and click
+         square.addEventListener('mouseover', () => {
+            square.classList.add('active');
+        });
 
-const inputDiv = getDivInput();
-
-
-// Function to create divs
-function createDivs(num) {
-    for (let i = 0; i < num; i++) {
-        const createdDivs = document.createElement("div");
-        createdDivs.classList.add("createdDiv");
-        createdDivs.style.width = "100px";
-        createdDivs.style.height = "50px";
-        createdDivs.style.border = "1px solid black";
-        createdDivs.style.margin = "500px 0 0 0 "
-        mainDiv.appendChild(createdDivs);
+        board.appendChild(square);
     }
 }
 
 
-
-
-
-
-mainDiv.appendChild(maxButton);
-container.appendChild(mainDiv);
-createDivs(inputDiv);
+// gridsize adjuster button addeventlistener
+resizeBtn.addEventListener("click", () => {
+    let numNew = parseInt(prompt("Please enter your desired grid size. (MAX 100)"), 10);
+    if (numNew > 0 && numNew <= 100 && !isNaN(numNew)) {
+        createDiv(numNew);
+    } else {
+        alert("ERROR! Your input is invalid, please enter a NUMBER between 1 and 100!");
+    }
+});
